@@ -101,15 +101,24 @@ function Set-AzureVpnRoutes {
     }
 
     # Load the XML file
-    [xml]$configXml = Get-Content $configXmlPath
+	[xml]$configXml = Get-Content $configXmlPath
 
     $vpnName = $configXml.AzVpnProfile.name.InnerText;
 
-    # Navigate to the includeroutes node
+	# Navigate to the includeroutes node
     $includeRoutesNode = $configXml.SelectSingleNode("//*[local-name()='includeroutes']");
 
-    # Optionally clear existing routes
-    $includeRoutesNode.RemoveAll()
+    # Check if the 'includeroutes' node exists
+    if ($null -eq $includeRoutesNode) {
+        # Create the 'includeroutes' node if it doesn't exist
+        $includeRoutesNode = $configXml.CreateElement("includeroutes")
+ 
+        # Append the new node to the parent node
+		$includeRoutesParent = $configXml.SelectSingleNode("//*[local-name()='clientconfig']");
+        $includeRoutesParent.AppendChild($includeRoutesNode)
+    }
+	
+	$includeRoutesNode.RemoveAll()
 
     # Iterate over the IP ranges and add each as a route
     foreach ($cidr in $newRanges) {
