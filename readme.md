@@ -23,3 +23,34 @@ Set-AzureVpnRoutes -AzureResourceRegex "(\.FranceCentral$)|(AzureActiveDirectory
 ## Start-PsTaskManager 
 
 Powershell based task manager resource usage. Ideal for windows containers.
+
+
+
+# How to Connect to Azure VPN - Step-by-Step Guide
+
+Follow these steps to set up and connect to Azure VPN.
+
+### Prerequisites
+
+- Ensure you have an updated config file (`azurevpnconfig.xml`) and it is located at `d:\azurevpnconfig.xml`.
+
+### Steps
+
+1. **Open PowerShell 7**
+   Launch PowerShell 7 (`pwsh`).
+
+2. **Import Necessary Functions**
+   Run the `debugimport.ps1` script to import required functions:
+
+   `. .\debugimport.ps1`
+
+3. **Run the VPN Route Script**
+   Execute the `Set-AzureVpnRoutes.ps1` script with your chosen flags:
+
+   `Set-AzureVpnRoutes -ConfigXmlPath "d:\azurevpnconfig.xml" -AzureResourceRegex "(\.FranceCentral$)"`
+
+4. **Open and Connect to Azure VPN**
+   Launch the Azure VPN Client, connect, and log in with your Azure account.
+
+5. **Verify VPN Routes**
+   Confirm that all desired VPN routes have loaded successfully.
