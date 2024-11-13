@@ -55,9 +55,9 @@ function Set-AzureVpnRoutes {
         $jsonDocument = [System.Text.Json.JsonDocument]::Parse($jsonContent)
     }
     catch {
-        Write-Host "Error occurred: $_"
+        Write-Host "Error occurred: $($_.Message)"
         Remove-Item -Path $tempFile # Clean up temporary file
-        exit
+        return;
     }
 
     # Initialize an array to store the IPs
