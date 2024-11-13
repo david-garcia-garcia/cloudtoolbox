@@ -104,6 +104,9 @@ function Set-AzureVpnRoutes {
 	[xml]$configXml = Get-Content $configXmlPath
 
     $vpnName = $configXml.AzVpnProfile.name.InnerText;
+    if ([string]::IsNullOrWhiteSpace($vpnName)) {
+        $vpnName = $configXml.AzVpnProfile.name;
+    }
 
 	# Navigate to the includeroutes node
     $includeRoutesNode = $configXml.SelectSingleNode("//*[local-name()='includeroutes']");
